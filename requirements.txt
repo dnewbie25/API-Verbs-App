@@ -1,1 +1,2 @@
 fastapi[all]
+uvicorn==0.30.6
