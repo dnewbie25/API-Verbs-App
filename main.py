@@ -1,7 +1,8 @@
 from typing import Optional
 import functions as fn
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
+from typing import List
 
 app = FastAPI()
 
@@ -20,7 +21,7 @@ async def root():
     return {"message": "This is a basic API I created to simulate a real API with the 4 main verbs: GET, POST, PUT and DELETE"}
 
 @app.get("/get/{book_id}")
-def get_book(book_id):
+async def get_book(book_id):
     """
     Retrieves a book by its ID.
 
@@ -33,7 +34,16 @@ def get_book(book_id):
     return fn.get_book_by_id(book_id, BOOKS)
 
 @app.post("/post/{book}")
-def post_book(book: str):
+async def post_book(book: str):
+    """
+    Adds a new book to the BOOKS list.
+
+    Args:
+        book (str): A string containing the book's id, title, author, and category, separated by commas.
+
+    Returns:
+        str: A success message indicating that the book has been added.
+    """
     arr = book.split(',')
     BOOKS.append({
         'book_id':int(arr[0].strip()),
@@ -42,3 +52,41 @@ def post_book(book: str):
         'category':arr[3].strip(),
     })
     return "Book added"
+
+@app.put("/put/{book}")
+async def put_book(book: str):
+    """
+    Updates an existing book in the BOOKS list.
+
+    Args:
+        book (str): A string containing the book's id, title, author, and category, separated by commas.
+
+    Returns:
+        str: A success message indicating that the book has been modified.
+    """
+    arr = book.split(',')
+    new_book = {
+        'book_id':int(arr[0].strip()),
+        'title':arr[1].strip(),
+        'author':arr[2].strip(),
+        'category':arr[3].strip(),
+    }
+    for item in range(len(BOOKS)):
+        if BOOKS[item]['book_id'] == new_book['book_id']:
+            BOOKS[item] = new_book
+    return "Book modified"
+
+@app.delete("/delete/")
+async def delete_book(books: List[int] = Query(...)):
+    """
+    Deletes one or more books from the BOOKS list by their IDs.
+
+    Args:
+        books (List[int]): A list of book IDs to delete.
+
+    Returns:
+        str: A success message indicating that the book has been deleted.
+    """
+    filtered_list = list(filter(lambda book: book['book_id'] not in books, BOOKS))
+    BOOKS[:] = filtered_list
+    return "Book deleted"
