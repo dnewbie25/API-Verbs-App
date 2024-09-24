@@ -4,6 +4,8 @@ This API is just for practicing the 4 basic verbs of a RESTful API (GET, POST, P
 
 > The API URL is this one: _[https://api-verbs-app.onrender.com](https://api-verbs-app.onrender.com)_
 
+> The API interactive documentation created by FastAPI can be found here _[API Documentation](https://api-verbs-app.onrender.com/docs)_
+
 ## Endpoints
 
 ### GET
