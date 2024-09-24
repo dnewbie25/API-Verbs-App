@@ -1,27 +1,29 @@
-# Deploy FastAPI on Render
+# API for practicing GET, POST, PUT, DELETE
 
-Use this repo as a template to deploy a Python [FastAPI](https://fastapi.tiangolo.com) service on Render.
+This API is just for practicing the 4 basic verbs of a RESTful API (GET, POST, PUT, DELETE). It is not intended to be a real API.
 
-See https://render.com/docs/deploy-fastapi or follow the steps below:
+> The API URL is this one: _[https://api-verbs-app.onrender.com](https://api-verbs-app.onrender.com)_
 
-## Manual Steps
+## Endpoints
 
-1. You may use this repository directly or [create your own repository from this template](https://github.com/render-examples/fastapi/generate) if you'd like to customize the code.
-2. Create a new Web Service on Render.
-3. Specify the URL to your new repository or this repository.
-4. Render will automatically detect that you are deploying a Python service and use `pip` to download the dependencies.
-5. Specify the following as the Start Command.
+### GET
 
-    ```shell
-    uvicorn main:app --host 0.0.0.0 --port $PORT
-    ```
+* `/get/{book_id}`: Retrieves a book by its ID. The ID is a natural number. Default books go from ID `1` to `6`.
+* `/get/all`: Retrieves all books.
 
-6. Click Create Web Service.
+### POST
 
-Or simply click:
+* `/post/{book}`: Adds a new book to the list. The book is passed as a string containing the book's id, title, author, and category, separated by commas, i.e., "7,Harry Potter and the Deadly Hollows,JK Rowling,Fantasy".
+The `POST` method does not do any validation or conversion. As long as there are those 4 elements sepparated by commas, it will work.
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/fastapi)
+### PUT
 
-## Thanks
+* `/put/{book}`: Updates an existing book in the list. The book is passed as a string containing the book's id, title, author, and category, separated by commas. It will then modify the data using the id to find the book.
 
-Thanks to [Harish](https://harishgarg.com) for the [inspiration to create a FastAPI quickstart for Render](https://twitter.com/harishkgarg/status/1435084018677010434) and for some sample code!
+### DELETE
+
+* `/delete/`: Deletes one or more books from the list by their IDs.
+
+## Usage
+
+You can use any HTTP client to interact with this API, although the main goal is to use a Javascript app to interact with this API.
