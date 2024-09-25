@@ -1,10 +1,26 @@
 from typing import Optional
 import functions as fn
+from fastapi.middleware.cors import CORSMiddleware
 
-from fastapi import FastAPI, Query
-from typing import List
+from fastapi import FastAPI
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:5500",
+    "https://api-verbs-app.onrender.com"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 BOOKS = [
     {'book_id':1,'title': 'Title 1', 'author': 'Author 1', 'category': 'science'},
@@ -53,7 +69,7 @@ async def post_book(book: str):
         'author':arr[2].strip(),
         'category':arr[3].strip(),
     })
-    return "Book added"
+    return BOOKS
 
 @app.put("/put/{book}")
 async def put_book(book: str):
@@ -80,16 +96,15 @@ async def put_book(book: str):
     return "Book modified"
 
 @app.delete("/delete/")
-async def delete_book(books: List[int] = Query(...)):
+async def delete_book(books: str):
     """
     Deletes one or more books from the BOOKS list by their IDs.
 
     Args:
-        books (List[int]): A list of book IDs to delete.
+        books (str): A comma-separated string of book IDs to delete.
 
     Returns:
         str: A success message indicating that the book has been deleted.
     """
-    filtered_list = list(filter(lambda book: book['book_id'] not in books, BOOKS))
-    BOOKS[:] = filtered_list
+    BOOKS[:] = fn.delete_book_by_id(books, BOOKS)
     return "Book deleted"

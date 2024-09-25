@@ -15,16 +15,18 @@ def get_book_by_id(id, books: list):
     if book['book_id'] == int(id):
       return book
     
-def delete_book_by_id(ids: list, books: list):
+def delete_book_by_id(ids: str, books: list):
   """
   Deletes books by their IDs from a list of books.
 
   Args:
-    ids (list): A list of book IDs to delete.
+    ids (str): A comma-separated string of book IDs to delete.
     books (list): A list of dictionaries representing books, each with a 'book_id' key.
 
   Returns:
     list: The updated list of books with the specified IDs removed.
   """
-  books = list(filter(lambda book: book['book_id'] not in ids, books))
+  ids_list = ids.split(',')
+  print(ids_list)
+  books[:] = list(filter(lambda book: str(book['book_id']) not in ids_list, books))
   return books
