@@ -11,7 +11,8 @@ origins = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "http://127.0.0.1:5500",
-    "https://api-verbs-app.onrender.com"
+    "https://api-verbs-app.onrender.com",
+    "https://api-verbs-app.netlify.app"
 ]
 
 app.add_middleware(
