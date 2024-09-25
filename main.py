@@ -21,12 +21,13 @@ async def root():
     return {"message": "This is a basic API I created to simulate a real API with the 4 main verbs: GET, POST, PUT and DELETE"}
 
 @app.get("/get/{book_id}")
-async def get_book(book_id):
+async def get_book(book_id: str):
     """
     Retrieves a book by its ID.
 
     Args:
         book_id: The ID of the book to retrieve.
+        all: If you type 'all', then it will retrieve all books
 
     Returns:
         A dictionary representing the book with the matching ID.
@@ -39,7 +40,8 @@ async def post_book(book: str):
     Adds a new book to the BOOKS list.
 
     Args:
-        book (str): A string containing the book's id, title, author, and category, separated by commas.
+        book (str): A string containing the book's id, title, author, and category, separated by commas. For example:
+        7, Harry Potter and the Azkaban Hollows, JK Rowling, Fantasy
 
     Returns:
         str: A success message indicating that the book has been added.
@@ -59,7 +61,8 @@ async def put_book(book: str):
     Updates an existing book in the BOOKS list.
 
     Args:
-        book (str): A string containing the book's id, title, author, and category, separated by commas.
+        book (str): A string containing the id of the book you want to modify, title, author, and category, separated by commas. For example: 
+        7, Harry Potter and the Deadly Hollows, JK Rowling, Fantasy
 
     Returns:
         str: A success message indicating that the book has been modified.

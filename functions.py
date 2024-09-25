@@ -12,7 +12,7 @@ def get_book_by_id(id, books: list):
   if id == 'all':
     return books
   for book in books:
-    if book['book_id'] == id:
+    if book['book_id'] == int(id):
       return book
     
 def delete_book_by_id(ids: list, books: list):
